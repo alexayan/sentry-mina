@@ -1,0 +1,30 @@
+{
+  "name": "sentry-mina",
+  "description": "Sentry SDK for Mini-Program",
+  "version": "0.0.1",
+  "main": "./dist/index.js",
+  "repository": "https://github.com/alexayan/sentry-mina.git",
+  "author": "alexayan",
+  "license": "MIT",
+  "types": "./dist/index.d.ts",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "eslint ./src && babel ./src  --out-dir ./dist",
+    "clean": "rimraf dist coverage"
+  },
+  "dependencies": {
+    "@sentry/core": "4.4.1",
+    "@sentry/types": "^4.4.1",
+    "@sentry/utils": "4.4.1"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.2.0",
+    "@babel/core": "^7.2.0",
+    "@babel/preset-env": "^7.2.0",
+    "cross-env": "^5.2.0",
+    "eslint": "^5.9.0",
+    "rimraf": "^2.6.2"
+  }
+}
