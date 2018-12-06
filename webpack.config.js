@@ -1,6 +1,9 @@
 module.exports = {
-  entry: './src/index.js',
+  entry: './dist/index.js',
   output: {
-    filename: 'sentry-mina.js'
-  }
+    filename: '../browser/sentry-mina.js',
+    library: 'sentry',
+    libraryTarget: 'umd'
+  },
+  mode: 'production'
 };

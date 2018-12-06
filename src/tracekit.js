@@ -1,5 +1,13 @@
+/**
+ * https://github.com/getsentry/sentry-javascript/blob/master/packages/browser/src/tracekit.ts
+ *
+ * Copyright 2018, Sentry
+ *
+ * https://sentry.io
+ *
+ * Licensed under the BSD 3-Clause license:
+ */
 // tslint:disable
-
 import { isUndefined, isError, isErrorEvent } from '@sentry/utils/is';
 import { getGlobalObject } from '@sentry/utils/misc';
 
@@ -277,6 +285,7 @@ TraceKit.report = (function reportModuleWrapper() {
   (report).unsubscribe = unsubscribe;
   (report).installGlobalHandler = installGlobalHandler;
   (report).installGlobalUnhandledRejectionHandler = installGlobalUnhandledRejectionHandler;
+  (report).traceKitWindowOnUnhandledRejection = traceKitWindowOnUnhandledRejection;
 
   return report;
 })();

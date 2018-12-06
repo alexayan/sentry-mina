@@ -5,14 +5,15 @@
   "main": "./dist/index.js",
   "repository": "https://github.com/alexayan/sentry-mina.git",
   "author": "alexayan",
-  "license": "MIT",
+  "license": "BSD 3-Clause",
   "types": "./dist/index.d.ts",
   "publishConfig": {
     "access": "public"
   },
   "scripts": {
-    "build": "eslint ./src && babel ./src  --out-dir ./dist",
-    "clean": "rimraf dist coverage"
+    "build": "npm run clean && ./node_modules/.bin/eslint ./src && ./node_modules/.bin/babel ./src  --out-dir ./dist && ./node_modules/.bin/webpack",
+    "clean": "rimraf dist coverage browser",
+    "prepare": "npm run build"
   },
   "dependencies": {
     "@sentry/core": "4.4.1",
@@ -25,6 +26,8 @@
     "@babel/preset-env": "^7.2.0",
     "cross-env": "^5.2.0",
     "eslint": "^5.9.0",
-    "rimraf": "^2.6.2"
+    "rimraf": "^2.6.2",
+    "webpack": "^4.27.0",
+    "webpack-cli": "^3.1.2"
   }
 }

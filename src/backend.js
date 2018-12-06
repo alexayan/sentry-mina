@@ -1,12 +1,11 @@
-import './globalfix.js';
 import { BaseBackend, SentryError } from '@sentry/core';
 import { Status } from '@sentry/types';
 import { isError, isErrorEvent, isPlainObject } from '@sentry/utils/is';
 import { logger } from '@sentry/utils/logger';
 import { eventFromPlainObject, eventFromStacktrace, prepareFramesForEvent } from './parsers';
 import { computeStackTrace } from './tracekit';
-import { WorkerTransport, RequestTransport } from './transports';
-import {isWorkerEnabled, supportRequest} from './env';
+import { RequestTransport } from './transports';
+import { supportRequest} from './env';
 
 export class MinaBackend extends BaseBackend {
   install() {
@@ -87,9 +86,6 @@ export class MinaBackend extends BaseBackend {
 
       if (this.options.transport) {
         this.transport = new this.options.transport({ dsn: this.options.dsn });
-      } else if (isWorkerEnabled(this.options)) {
-        transportOptions.worker = this.options.worker;
-        this.transport = new WorkerTransport(transportOptions);
       } else if (supportRequest()) {
         this.transport = new RequestTransport(transportOptions);
       }

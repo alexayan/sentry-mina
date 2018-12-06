@@ -1,3 +1,12 @@
+/**
+ * https://github.com/getsentry/sentry-javascript/blob/master/packages/browser/src/parsers.ts
+ *
+ * Copyright 2018, Sentry
+ *
+ * https://sentry.io
+ *
+ * Licensed under the BSD 3-Clause license:
+ */
 import { limitObjectDepthToSize, serializeKeysToEventMessage } from '@sentry/utils/object';
 import { includes } from '@sentry/utils/string';
 import { md5 } from './md5';

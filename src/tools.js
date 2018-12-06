@@ -1,4 +1,3 @@
-import './globalfix.js';
 export function compareVersion(v1, v2) {
   v1 = v1.split('.');
   v2 = v2.split('.');
@@ -23,4 +22,24 @@ export function compareVersion(v1, v2) {
   }
 
   return 0;
+}
+
+export function fill(source, name, replacement) {
+  if (!(name in source) || (source[name]).__sentry__) {
+    return;
+  }
+  const original = source[name];
+  const wrapped = replacement(original);
+  wrapped.__sentry__ = true;
+  wrapped.__sentry_original__ = original;
+  wrapped.__sentry_wrapped__ = wrapped;
+  if (Object.defineProperties) {
+    Object.defineProperties(source, {
+      [name]: {
+        value: wrapped
+      }
+    });
+  } else {
+    source[name] = wrapped;
+  }
 }

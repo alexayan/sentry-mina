@@ -1,5 +1,19 @@
 import './globalfix.js';
 
+export {
+  addGlobalEventProcessor,
+  addBreadcrumb,
+  captureException,
+  captureEvent,
+  captureMessage,
+  configureScope,
+  withScope,
+  getHubFromCarrier,
+  getCurrentHub,
+  Hub,
+  Scope,
+} from '@sentry/core';
+
 export { MinaBackend } from './backend';
 export { MinaClient } from './client';
 export { defaultIntegrations, init, lastEventId, showReportDialog } from './sdk';
@@ -15,3 +29,4 @@ const INTEGRATIONS = {
 };
 
 export { INTEGRATIONS as Integrations, Transports };
+export {MINA_SYSTEMINFO_TAGS as SYSTEMINFO_TAGS} from './env';
