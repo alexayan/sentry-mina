@@ -31,7 +31,7 @@
 ### 使用
 
 ```
-import * as sentry from "sentry-mina/browser/sentry-mina.js"; 
+import * as sentry from "sentry-mina/browser/sentry-mina.js";
 // import * as sentry from "sentry-mina";
 
 // config Sentry
@@ -83,7 +83,7 @@ new sentry.Integrations.Breadcrumbs({
 ------------- | ------------- | ------------- | -------------
 console  | Boolean, Array | true |是否记录 console 日志，如果值为数组 ['log', 'info']，则只记录数组中所列的日志
 request  | Boolean | true | 是否记录页面 request 请求
-navigation  | Boolean | true | 是否记录页面导航信息 
+navigation  | Boolean | true | 是否记录页面导航信息
 api  | Boolean | true | 是否记录小程序 API 调用
 lifecycle  | Boolean | true | 是否记录小程序生命周期变化
 
