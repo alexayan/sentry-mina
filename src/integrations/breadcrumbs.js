@@ -1,7 +1,7 @@
-import { API, getCurrentHub } from '@sentry/core';
-import { supportRequest, getMinaContext, supportNavigations, getCurrentPage, getPrevPage, getMinaApiList, MINA_APP_LIFE_CYCLE } from '../env';
+import { API, getCurrentHub, captureException } from '@sentry/core';
+import { supportRequest, getMinaContext, supportNavigations, getCurrentPage, getPrevPage, getMinaApiList, MINA_APP_LIFE_CYCLE, isWxUnhandledPromiseError } from '../env';
 import { Severity } from '@sentry/types';
-import { isArray } from '@sentry/utils/is';
+import { isArray, isError } from '@sentry/utils/is';
 import { logger } from '@sentry/utils/logger';
 import { getEventDescription, getGlobalObject } from '@sentry/utils/misc';
 import { deserialize, serializeObject } from '@sentry/utils/object';
@@ -29,10 +29,9 @@ export class Breadcrumbs {
       return;
     }
     let watchFunctions = ['debug', 'info', 'warn', 'error', 'log'];
+    let filterFunctions = this.options.console ? watchFunctions : [];
     if (isArray(this.options.console)) {
-      watchFunctions = watchFunctions.filter((func) => {
-        return this.options.console.indexOf(func) > -1;
-      });
+      filterFunctions = this.options.console;
     }
     watchFunctions.forEach(function(level) {
       if (!(level in global.console)) {
@@ -41,29 +40,37 @@ export class Breadcrumbs {
 
       fill(global.console, level, function(originalConsoleLevel) {
         return function(...args) {
-          const breadcrumbData = {
-            category: 'console',
-            data: {
-              extra: {
-                arguments: serializeObject(args, 2),
+          if (filterFunctions.indexOf(level) > -1) {
+            const breadcrumbData = {
+              category: 'console',
+              data: {
+                extra: {
+                  arguments: serializeObject(args, 2),
+                },
+                logger: level,
               },
-              logger: level,
-            },
-            level: Severity.fromString(level),
-            message: safeJoin(args, ' '),
-          };
+              level: Severity.fromString(level),
+              message: safeJoin(args, ' '),
+            };
 
-          if (level === 'assert') {
-            if (args[0] === false) {
-              breadcrumbData.message = `Assertion failed: ${safeJoin(args.slice(1), ' ') || 'console.assert'}`;
-              breadcrumbData.data.extra.arguments = serializeObject(args.slice(1), 2);
+            if (level === 'assert') {
+              if (args[0] === false) {
+                breadcrumbData.message = `Assertion failed: ${safeJoin(args.slice(1), ' ') || 'console.assert'}`;
+                breadcrumbData.data.extra.arguments = serializeObject(args.slice(1), 2);
+              }
             }
+
+            Breadcrumbs.addBreadcrumb(breadcrumbData, {
+              input: args,
+              level,
+            });
           }
 
-          Breadcrumbs.addBreadcrumb(breadcrumbData, {
-            input: args,
-            level,
-          });
+          if (level === 'warn') {
+            if (isWxUnhandledPromiseError(args[0]) && isError(args[1])) {
+              captureException(args[1]);
+            }
+          }
 
           if (originalConsoleLevel) {
             Function.prototype.apply.call(originalConsoleLevel, global.console, args);
@@ -77,6 +84,8 @@ export class Breadcrumbs {
     let apiList = getMinaApiList();
     if (isArray(this.options.api)) {
       apiList = this.options.api;
+    } else if (!this.options.api) {
+      apiList = [];
     }
     apiList.forEach((api) => {
       if (this.ctx[api] && typeof this.ctx[api] === 'function') {

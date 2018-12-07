@@ -1,6 +1,6 @@
 import { getCurrentHub, initAndBind, SentryError, configureScope, addBreadcrumb, Integrations as CoreIntegrations } from '@sentry/core';
 import { MinaClient } from './client';
-import { getSystemInfo, MINA_SYSTEMINFO_TAGS, getMinaContext } from './env';
+import { getSystemInfo, MINA_SYSTEMINFO_TAGS, getMinaContext, setMinaContext } from './env';
 import {Breadcrumbs, TryCatch, LogManager, GlobalHandlers} from './integrations';
 
 export const defaultIntegrations = [
@@ -16,6 +16,9 @@ export const defaultIntegrations = [
 export function init(options){
   if (options.defaultIntegrations === undefined) {
     options.defaultIntegrations = defaultIntegrations;
+  }
+  if (options.minaContext) {
+    setMinaContext(options.minaContext);
   }
   initAndBind(MinaClient, options);
   const minaSystemInfo = getSystemInfo();

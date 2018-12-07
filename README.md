@@ -10,10 +10,10 @@
 - 记录页面导航
 - 记录小程序 api 调用
 - 记录 console 日志
-- 记录应用异常
+- 记录应用框架异常和未捕获异常
+- 记录微信小程序 Unhandled Promise Rejection Error
 - 记录 setTimeout, setInterval 内异常
 - 支持小程序 LogManager
-
 
 ## 相关链接
 
@@ -28,9 +28,9 @@
 - `yarn add sentry-mina`
 - 将 `browser/sentry-mina.js` 拷贝到项目中
 
-### 使用
+### Usage
 
-```
+```javascript
 import * as sentry from "sentry-mina/browser/sentry-mina.js";
 // import * as sentry from "sentry-mina";
 
@@ -65,17 +65,34 @@ Sentry.captureEvent({
 
 ```
 
+### 小程序环境
+
+默认环境为微信小程序，其他平台小程序可在初始化时配置特定平台环境对象, 环境对象内属性灿在
+
+``` javascript
+sentry.init({
+  minaContext: {
+    getSystemInfo: () => {},
+    request: () => {},
+    setStorage: () => {},
+    getStorageSync: () => {},
+    getLaunchOptionsSync: () => {},
+    // ...
+  }
+})
+```
+
 ### INTEGRATIONS
 
 #### Breadcrumbs
 
-```
+``` javascript
 new sentry.Integrations.Breadcrumbs({
-	console: true,
-	request: true,
-	navigation: true,
-	api: true,
-	lifecycle: true
+  console: true,
+  request: true,
+  navigation: true,
+  api: true,
+  lifecycle: true
 })
 ```
 
@@ -91,7 +108,7 @@ lifecycle  | Boolean | true | 是否记录小程序生命周期变化
 
 捕获并记录 setTimeout, setInterval 内的异常
 
-```
+```javascript
 new sentry.Integrations.TryCatch()
 ```
 
@@ -99,11 +116,12 @@ new sentry.Integrations.TryCatch()
 
 将 Sentry 事件数据记录到小程序 LogManager
 
-```
+```javascript
 new sentry.Integrations.LogManager({
-	level: 0
+  level: 0
 })
 ```
+
 配置 | 类型 | 默认值 |描述
 ------------- | ------------- | ------------- | -------------
 level  | Number | 0 | 取值为0表示是否会把 App、Page 的生命周期函数和 wx 命名空间下的函数调用写入日志，取值为1则不会
@@ -112,7 +130,7 @@ level  | Number | 0 | 取值为0表示是否会把 App、Page 的生命周期函
 
 记录 app.onError 和 app.onPageNotFound 日志
 
-```
+```javascript
 new sentry.Integrations.GlobalHandlers()
 ```
 
@@ -122,10 +140,10 @@ new sentry.Integrations.GlobalHandlers()
 
 `sentry-mina` 发送日志，支持失败重试，默认重试 2 次。可以通过以下方式
 
-```
+```javascript
 sentry.init({
   transportOptions: {
-  	retry: 2
+    retry: 2
   }
 })
 ```
@@ -139,4 +157,3 @@ sentry.init({
 ![stack](static/stack.png)
 ![breadcrumbs](static/breadcrumbs.png)
 ![meta](static/meta.png)
-

@@ -104,3 +104,10 @@ export function supportStorage() {
 export function supportLogManager() {
   return !!minaContext.getLogManager;
 }
+
+export function isWxUnhandledPromiseError(message) {
+  if (message && typeof message === 'string' && message.indexOf('Unhandled') >= -1) {
+    return true;
+  }
+  return false;
+}

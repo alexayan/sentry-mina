@@ -1,9 +1,8 @@
-import { getCurrentHub, captureEvent } from '@sentry/core';
+import { getCurrentHub, captureEvent, captureException } from '@sentry/core';
 import { logger } from '@sentry/utils/logger';
 import { eventFromStacktrace } from '../parsers';
 import {
   subscribe,
-  traceKitWindowOnUnhandledRejection
 } from '../tracekit';
 import { shouldIgnoreOnError } from './helpers';
 import { getMinaContext} from '../env';
@@ -43,8 +42,8 @@ export class GlobalHandlers {
 
   installGlobalErrorHandler() {
     this.ctx.onError((msg) => {
-      traceKitWindowOnUnhandledRejection({
-        reason: msg
+      captureException(msg, {
+        level: 'error'
       });
     });
   }
