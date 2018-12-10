@@ -91,12 +91,11 @@ export class Breadcrumbs {
       if (this.ctx[api] && typeof this.ctx[api] === 'function') {
         fill(this.ctx, api, (originalRequest) => {
           return (...args) => {
-            const skipArgs = ['getStorage', 'setStorage', 'setStorageSync', 'getStorageSync', 'removeStorage', 'login'].indexOf(api) > -1;
             Breadcrumbs.addBreadcrumb(
               {
                 category: 'mina-api',
                 data: {
-                  args: skipArgs ? [] : args,
+                  args,
                   name: api
                 }
               }
