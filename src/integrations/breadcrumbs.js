@@ -73,7 +73,11 @@ export class Breadcrumbs {
           }
 
           if (originalConsoleLevel) {
-            Function.prototype.apply.call(originalConsoleLevel, global.console, args);
+            try {
+              Function.prototype.apply.call(originalConsoleLevel, global.console, args);
+            } catch (e) {
+              originalConsoleLevel.apply(global.console, args);
+            }
           }
         };
       });
