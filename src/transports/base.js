@@ -59,6 +59,7 @@ export class BaseTransport {
         });
       }
     }
+    this.task.event._resolve && typeof this.task.event._resolve === 'function' && this.task.event._resolve({});
     this.task = null;
     this.saveTasks();
     this.manageTask();

@@ -30,6 +30,9 @@ export class RequestTransport extends BaseTransport {
   }
 
   async captureEvent(event) {
-    this.addTask(event);
+    return new Promise((resolve) => {
+      event._resolve = resolve;
+      this.addTask(event);
+    });
   }
 }

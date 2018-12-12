@@ -132,10 +132,11 @@ export class Breadcrumbs {
             return originalRequest.call(this.ctx, requestOptions);
           }
         }
-
         const fetchData = {
           method,
           url,
+          header: requestOptions.header,
+          dataType: requestOptions.dataType
         };
 
         const originSuccess = requestOptions.success;
@@ -151,17 +152,7 @@ export class Breadcrumbs {
               category: 'request',
               data: fetchData,
               type: 'http',
-            },
-            {
-              input: {
-                url: requestOptions.url,
-                data: requestOptions.data,
-                header: requestOptions.header,
-                method: requestOptions.method,
-                dataType: requestOptions.dataType
-              },
-              response: res.data,
-            },
+            }
           );
         };
 
@@ -175,17 +166,7 @@ export class Breadcrumbs {
               data: fetchData,
               level: Severity.Error,
               type: 'http',
-            },
-            {
-              error,
-              input: {
-                url: requestOptions.url,
-                data: requestOptions.data,
-                header: requestOptions.header,
-                method: requestOptions.method,
-                dataType: requestOptions.dataType
-              }
-            },
+            }
           );
         };
 
