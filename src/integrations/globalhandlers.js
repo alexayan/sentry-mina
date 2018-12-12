@@ -6,6 +6,7 @@ import {
 } from '../tracekit';
 import { shouldIgnoreOnError } from './helpers';
 import { getMinaContext} from '../env';
+import { globalErrorFingerprint } from '../tools';
 
 export class GlobalHandlers {
   constructor(options = {}) {
@@ -42,9 +43,14 @@ export class GlobalHandlers {
 
   installGlobalErrorHandler() {
     this.ctx.onError((msg) => {
-      captureException(msg, {
+      const hint = {
         level: 'error'
-      });
+      };
+      const fingerprint = globalErrorFingerprint(msg);
+      if (fingerprint) {
+        hint.fingerprint = fingerprint;
+      }
+      captureException(msg, hint);
     });
   }
 

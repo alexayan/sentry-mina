@@ -1,4 +1,5 @@
 import { logger } from '@sentry/utils/logger';
+import { isError } from '@sentry/utils/is';
 
 export function compareVersion(v1, v2) {
   v1 = v1.split('.');
@@ -51,5 +52,16 @@ export function fill(source, name, replacement) {
     }
   } catch (e) {
     logger.warn(`fail to reset property ${name}`);
+  }
+}
+
+export function globalErrorFingerprint(msg) {
+  try {
+    if (isError(msg)) {
+      msg = msg.message;
+    }
+    return msg.split('\n').slice(0, 2);
+  } catch (e) {
+    return null;
   }
 }
