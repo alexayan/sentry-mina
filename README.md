@@ -17,6 +17,7 @@
 
 ## 相关链接
 
+- [Trello](https://trello.com/b/1rlFQOAo/sentry-mina)
 - [Sentry 快速入门](https://docs.sentry.io/quickstart/)
 - [Sentry 官方 API 文档](http://getsentry.github.io/sentry-javascript/)
 
