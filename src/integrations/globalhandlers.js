@@ -55,7 +55,7 @@ export class GlobalHandlers {
             const errorType = fingerprint[0] || 'UnknowAppError';
             const errorMessage = fingerprint[1] || errorType;
             error = new Error(errorMessage);
-            error.constructor.name = errorType;
+            error.name = errorType;
             error.stack = msg;
           } else {
             error = new Error('UnknowAppError');
