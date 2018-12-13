@@ -7,6 +7,7 @@ import {
 import { shouldIgnoreOnError } from './helpers';
 import { getMinaContext} from '../env';
 import { globalErrorFingerprint } from '../tools';
+import { isError } from '@sentry/utils/is';
 
 export class GlobalHandlers {
   constructor(options = {}) {
@@ -45,12 +46,25 @@ export class GlobalHandlers {
     this.ctx.onError((msg) => {
       withScope((scope) => {
         const fingerprint = globalErrorFingerprint(msg);
+        let error;
         if (fingerprint) {
           scope.setFingerprint(fingerprint);
         }
-        captureException(msg, {
-          level: 'error'
-        });
+        if (!isError(msg)) {
+          if (fingerprint) {
+            const errorType = fingerprint[0] || 'UnknowAppError';
+            const errorMessage = fingerprint[1] || errorType;
+            error = new Error(errorMessage);
+            error.constructor.name = errorType;
+            error.stack = msg;
+          } else {
+            error = new Error('UnknowAppError');
+            error.stack = msg;
+          }
+        } else {
+          error = msg;
+        }
+        captureException(error);
       });
     });
   }
