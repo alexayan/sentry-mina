@@ -106,7 +106,7 @@ export function supportLogManager() {
 }
 
 export function isWxUnhandledPromiseError(message) {
-  if (message && typeof message === 'string' && message.indexOf('Unhandled') >= -1) {
+  if (message && typeof message === 'string' && /^(Unhandled|Uncaught)/i.test(message)) {
     return true;
   }
   return false;

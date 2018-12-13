@@ -28,7 +28,7 @@ export class Breadcrumbs {
     if (!('console' in global)) {
       return;
     }
-    let watchFunctions = ['debug', 'info', 'warn', 'error', 'log'];
+    let watchFunctions = ['info', 'warn', 'error', 'log'];
     let filterFunctions = this.options.console ? watchFunctions : [];
     if (isArray(this.options.console)) {
       filterFunctions = this.options.console;
@@ -66,7 +66,7 @@ export class Breadcrumbs {
             });
           }
 
-          if (level === 'warn') {
+          if (level === 'warn' || level === 'error') {
             if (isWxUnhandledPromiseError(args[0]) && isError(args[1])) {
               captureException(args[1]);
             }

@@ -1,4 +1,4 @@
-import { getCurrentHub, captureEvent, captureException } from '@sentry/core';
+import { getCurrentHub, captureEvent, captureException, withScope } from '@sentry/core';
 import { logger } from '@sentry/utils/logger';
 import { eventFromStacktrace } from '../parsers';
 import {
@@ -43,14 +43,15 @@ export class GlobalHandlers {
 
   installGlobalErrorHandler() {
     this.ctx.onError((msg) => {
-      const hint = {
-        level: 'error'
-      };
-      const fingerprint = globalErrorFingerprint(msg);
-      if (fingerprint) {
-        hint.fingerprint = fingerprint;
-      }
-      captureException(msg, hint);
+      withScope((scope) => {
+        const fingerprint = globalErrorFingerprint(msg);
+        if (fingerprint) {
+          scope.setFingerprint(fingerprint);
+        }
+        captureException(msg, {
+          level: 'error'
+        });
+      });
     });
   }
 
