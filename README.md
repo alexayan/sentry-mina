@@ -25,15 +25,16 @@
 
 ### 安装
 
-- `npm install sentry-mina --save`
-- `yarn add sentry-mina`
 - 将 `browser/sentry-mina.js` 拷贝到项目中
+
+### 微信开发工具配置
+
+禁用 ES6 转 ES5
 
 ### Usage
 
 ```javascript
 import * as sentry from "sentry-mina/browser/sentry-mina.js";
-// import * as sentry from "sentry-mina";
 
 // config Sentry
 sentry.init({
