@@ -1,7 +1,7 @@
 {
   "name": "sentry-mina",
   "description": "Sentry SDK for Mini-Program",
-  "version": "0.0.8",
+  "version": "0.1.0",
   "main": "./dist/index.js",
   "repository": "https://github.com/alexayan/sentry-mina.git",
   "author": "alexayan",

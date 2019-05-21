@@ -1,4 +1,3 @@
-import 'babel-polyfill';
 import './globalfix.js';
 
 export {

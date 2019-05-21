@@ -54,6 +54,9 @@ export function getCurrentPage() {
   if (typeof getCurrentPages === 'function' ) {
     // eslint-disable-next-line
     const pages = getCurrentPages();
+    if (pages.length === 0) {
+      return 'unknow';
+    }
     return pages[pages.length - 1].route;
   }
   return 'unknow';
@@ -63,6 +66,9 @@ export function getPrevPage(delta) {
   if (typeof getCurrentPages === 'function' ) {
     // eslint-disable-next-line
     const pages = getCurrentPages();
+    if (pages.length === 0) {
+      return 'unknow';
+    }
     if (!delta) {
       delta = 1;
     }
