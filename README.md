@@ -31,6 +31,10 @@
 
 禁用 ES6 转 ES5
 
+### 微信后台配置
+
+开发中配置 sentry.io 的 url 地址。（sentry.io 未经过 icp 备案，需自己做转发）
+
 ### Usage
 
 ```javascript
