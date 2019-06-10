@@ -29,7 +29,7 @@
 
 ### 微信开发工具配置
 
-禁用 ES6 转 ES5
+控制台报 `regeneratorRuntime is not defined` 错误，在开发工具上启用 `增强编译` 可解决
 
 ### Usage
 
