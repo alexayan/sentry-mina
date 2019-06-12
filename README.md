@@ -29,7 +29,7 @@
 
 ### 微信开发工具配置
 
-控制台报 `regeneratorRuntime is not defined` 错误，在开发工具上启用 `增强编译` 可解决
+控制台报 `regeneratorRuntime is not defined` 错误，在开发工具上启用 `增强编译` 可解决 [@NullYing](https://github.com/alexayan/sentry-mina/issues/2)
 
 ### 微信后台配置
 
