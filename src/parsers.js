@@ -9,7 +9,7 @@
  */
 import { limitObjectDepthToSize, serializeKeysToEventMessage } from '@sentry/utils/object';
 import { includes } from '@sentry/utils/string';
-import { md5 } from './md5';
+import md5 from './md5';
 import { computeStackTrace } from './tracekit';
 
 const STACKTRACE_LIMIT = 50;
