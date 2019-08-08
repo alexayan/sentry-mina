@@ -98,7 +98,8 @@ new sentry.Integrations.Breadcrumbs({
   request: true,
   navigation: true,
   api: true,
-  lifecycle: true
+  lifecycle: true,
+  unhandleError: true
 })
 ```
 
@@ -109,6 +110,7 @@ request  | Boolean | true | 是否记录页面 request 请求
 navigation  | Boolean | true | 是否记录页面导航信息
 api  | Boolean | true | 是否记录小程序 API 调用
 lifecycle  | Boolean | true | 是否记录小程序生命周期变化
+unhandleError | Boolean | true | 是否记录微信小程序 Unhandled Promise Rejection Error
 
 #### TryCatch
 

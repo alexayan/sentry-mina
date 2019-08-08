@@ -20,6 +20,7 @@ export class Breadcrumbs {
       navigation: true,
       api: true,
       lifecycle: true,
+      unhandleError: true,
       ...options,
     };
   }
@@ -33,6 +34,7 @@ export class Breadcrumbs {
     if (isArray(this.options.console)) {
       filterFunctions = this.options.console;
     }
+    const captureUnhandleError = this.unhandleError;
     watchFunctions.forEach(function(level) {
       if (!(level in global.console)) {
         return;
@@ -66,7 +68,7 @@ export class Breadcrumbs {
             });
           }
 
-          if (level === 'warn' || level === 'error') {
+          if ((level === 'warn' || level === 'error') && captureUnhandleError) {
             if (isWxUnhandledPromiseError(args[0]) && isError(args[1])) {
               captureException(args[1]);
             }
