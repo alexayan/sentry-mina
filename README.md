@@ -25,7 +25,7 @@
 
 ### 安装
 
-- 将 `browser/sentry-mina.js` 拷贝到项目中
+- `npm i sentry-mina --save`
 
 ### 微信开发工具配置
 
@@ -38,7 +38,7 @@
 ### Usage
 
 ```javascript
-import * as sentry from "sentry-mina/browser/sentry-mina.js";
+import * as sentry from "sentry-mina";
 
 // config Sentry
 sentry.init({
