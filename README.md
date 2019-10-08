@@ -13,8 +13,8 @@
 - 记录应用框架异常和未捕获异常
 - 记录微信小程序 Unhandled Promise Rejection Error
 - 记录 setTimeout, setInterval 内异常
-- 支持小程序 LogManager
-- 支持小程序实时日志
+- 支持小程序 [LogManager](https://developers.weixin.qq.com/miniprogram/dev/api/base/debug/wx.getLogManager.html)
+- 支持小程序实时日志 [getRealtimeLogManager](https://developers.weixin.qq.com/miniprogram/dev/framework/realtimelog/)
 
 ## 相关链接
 
@@ -27,6 +27,27 @@
 ### 安装
 
 - `npm i sentry-mina --save`
+
+### 小程序环境
+
+默认环境为微信小程序，其他平台小程序可在初始化时配置特定平台环境对象
+
+``` javascript
+sentry.init({
+  minaContext: wx
+})
+
+sentry.init({
+  minaContext: {
+    getSystemInfo: () => {},
+    request: () => {},
+    setStorage: () => {},
+    getStorageSync: () => {},
+    getLaunchOptionsSync: () => {},
+    // ...
+  }
+})
+```
 
 ### 微信开发工具配置
 
@@ -70,23 +91,6 @@ Sentry.captureEvent({
   ],
 });
 
-```
-
-### 小程序环境
-
-默认环境为微信小程序，其他平台小程序可在初始化时配置特定平台环境对象, 环境对象内属性灿在
-
-``` javascript
-sentry.init({
-  minaContext: {
-    getSystemInfo: () => {},
-    request: () => {},
-    setStorage: () => {},
-    getStorageSync: () => {},
-    getLaunchOptionsSync: () => {},
-    // ...
-  }
-})
 ```
 
 ### INTEGRATIONS
