@@ -77,7 +77,7 @@ export class Breadcrumbs {
             });
           }
 
-          if (realtimeLogFilterFunctions.indexOf(level) > -1) {
+          if (realtimeLogFilterFunctions.indexOf(level) > -1 && realtimeLogManager) {
             let _level = level;
             if (_level === 'log') {
               _level = 'info';
