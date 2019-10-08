@@ -14,6 +14,9 @@ export class Breadcrumbs {
   constructor(options = {}) {
     this.name = Breadcrumbs.id;
     this.ctx = getMinaContext();
+    if (this.ctx.getRealtimeLogManager) {
+      this.realtimeLogManager = this.ctx.getRealtimeLogManager();
+    }
     this.options = {
       console: true,
       request: true,
@@ -21,6 +24,7 @@ export class Breadcrumbs {
       api: true,
       lifecycle: true,
       unhandleError: true,
+      realtimeLog: true,
       ...options,
     };
   }
@@ -30,11 +34,16 @@ export class Breadcrumbs {
       return;
     }
     let watchFunctions = ['info', 'warn', 'error', 'log'];
-    let filterFunctions = this.options.console ? watchFunctions : [];
+    let consoleFilterFunctions = this.options.console ? watchFunctions : [];
     if (isArray(this.options.console)) {
-      filterFunctions = this.options.console;
+      consoleFilterFunctions = this.options.console;
     }
-    const captureUnhandleError = this.unhandleError;
+    let realtimeLogFilterFunctions = this.options.realtimeLog ? ['warn', 'error', 'info'] : [];
+    if (isArray(this.options.realtimeLog)) {
+      realtimeLogFilterFunctions = this.options.realtimeLog;
+    }
+    const captureUnhandleError = this.options.unhandleError;
+    const realtimeLogManager = this.realtimeLogManager;
     watchFunctions.forEach(function(level) {
       if (!(level in global.console)) {
         return;
@@ -42,7 +51,7 @@ export class Breadcrumbs {
 
       fill(global.console, level, function(originalConsoleLevel) {
         return function(...args) {
-          if (filterFunctions.indexOf(level) > -1) {
+          if (consoleFilterFunctions.indexOf(level) > -1) {
             const breadcrumbData = {
               category: 'console',
               data: {
@@ -66,6 +75,14 @@ export class Breadcrumbs {
               input: args,
               level,
             });
+          }
+
+          if (realtimeLogFilterFunctions.indexOf(level) > -1) {
+            let _level = level;
+            if (_level === 'log') {
+              _level = 'info';
+            }
+            realtimeLogManager[_level] && realtimeLogManager[_level].apply(realtimeLogManager, args);
           }
 
           if ((level === 'warn' || level === 'error') && captureUnhandleError) {
@@ -236,7 +253,7 @@ export class Breadcrumbs {
   }
 
   setupOnce() {
-    if (this.options.console) {
+    if (this.options.console || (this.options.realtimeLog && this.realtimeLogManager)) {
       this.instrumentConsole();
     }
     if (this.options.navigation) {

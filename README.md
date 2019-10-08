@@ -14,6 +14,7 @@
 - 记录微信小程序 Unhandled Promise Rejection Error
 - 记录 setTimeout, setInterval 内异常
 - 支持小程序 LogManager
+- 支持小程序实时日志
 
 ## 相关链接
 
@@ -95,6 +96,7 @@ sentry.init({
 ``` javascript
 new sentry.Integrations.Breadcrumbs({
   console: true,
+  realtimeLog: ['info', 'warn', 'error'], // https://developers.weixin.qq.com/miniprogram/dev/framework/realtimelog/
   request: true,
   navigation: true,
   api: true,
@@ -106,6 +108,7 @@ new sentry.Integrations.Breadcrumbs({
 配置 | 类型 | 默认值 |描述
 ------------- | ------------- | ------------- | -------------
 console  | Boolean, Array | true |是否记录 console 日志，如果值为数组 ['log', 'info']，则只记录数组中所列的日志
+realtimeLog | Boolean, Array | true |是否记录实时日志，如果值为数组 ['log', 'info']，则只记录数组中所列的日志。将程序中通过 console 打的日志记录到小程序实时日志中, console.log 通过 realtimeLog.info 进行记录
 request  | Boolean | true | 是否记录页面 request 请求
 navigation  | Boolean | true | 是否记录页面导航信息
 api  | Boolean | true | 是否记录小程序 API 调用
