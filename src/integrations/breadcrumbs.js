@@ -33,7 +33,7 @@ export class Breadcrumbs {
     if (!('console' in global)) {
       return;
     }
-    let watchFunctions = ['info', 'warn', 'error', 'log'];
+    let watchFunctions = ['info', 'warn', 'error', 'log', 'debug'];
     let consoleFilterFunctions = this.options.console ? watchFunctions : [];
     if (isArray(this.options.console)) {
       consoleFilterFunctions = this.options.console;
