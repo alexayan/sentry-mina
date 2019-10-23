@@ -7,6 +7,9 @@
   "author": "alexayan",
   "license": "BSD 3-Clause",
   "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
   "publishConfig": {
     "access": "public"
   },
