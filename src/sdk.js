@@ -1,12 +1,12 @@
 import { getCurrentHub, initAndBind, SentryError, configureScope, addBreadcrumb, Integrations as CoreIntegrations } from '@sentry/core';
 import { MinaClient } from './client';
 import { getSystemInfo, MINA_SYSTEMINFO_TAGS, getMinaContext, setMinaContext } from './env';
-import {Breadcrumbs, LogManager, GlobalHandlers} from './integrations';
+import {Breadcrumbs, LogManager, GlobalHandlers, FunctionToString} from './integrations';
 
 export const defaultIntegrations = [
   new CoreIntegrations.Dedupe(),
   new CoreIntegrations.InboundFilters(),
-  new CoreIntegrations.FunctionToString(),
+  new FunctionToString(),
   new GlobalHandlers(),
   new Breadcrumbs(),
   new LogManager()

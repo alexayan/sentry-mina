@@ -51,32 +51,35 @@ export function supportNavigations() {
 }
 
 export function getCurrentPage() {
-  if (typeof getCurrentPages === 'function' ) {
-    // eslint-disable-next-line
-    const pages = getCurrentPages();
-    if (pages.length === 0) {
-      return 'unknow';
+  try {
+    if (typeof getCurrentPages === 'function' ) {
+      // eslint-disable-next-line
+      const pages = getCurrentPages();
+      return pages[pages.length - 1].route;
     }
-    return pages[pages.length - 1].route;
+    logger.warn('getCurrentPages is not function in global');
+    return 'unknow';
+  } catch (e) {
+    return 'unknow';
   }
-  return 'unknow';
 }
 
 export function getPrevPage(delta) {
-  if (typeof getCurrentPages === 'function' ) {
-    // eslint-disable-next-line
-    const pages = getCurrentPages();
-    if (pages.length === 0) {
-      return 'unknow';
-    }
-    if (!delta) {
-      delta = 1;
-    }
-    if (pages[pages.length - 1 - delta]) {
+  try {
+    if (typeof getCurrentPages === 'function' ) {
+      // eslint-disable-next-line
+      const pages = getCurrentPages();
+      if (!delta) {
+        delta = 1;
+      }
       return pages[pages.length - 1 - delta].route;
     }
+    logger.warn('getCurrentPages is not function in global');
+    return 'unknow';
+  } catch (e) {
+    return 'unknow';
   }
-  return 'unknow';
+  
 }
 
 export async function getMinaApp() {
