@@ -68,7 +68,7 @@ sentry.init({
 })
 
 // Set user information, as well as tags and further extras
-Sentry.configureScope(scope => {
+sentry.configureScope(scope => {
   scope.setUser({ id: '4711' });
   scope.setTag('user_mode', 'admin');
   scope.setExtra('battery', 0.7);
@@ -76,15 +76,15 @@ Sentry.configureScope(scope => {
 });
 
 // Add a breadcrumb for future events
-Sentry.addBreadcrumb({
+sentry.addBreadcrumb({
   message: 'My Breadcrumb',
   // ...
 });
 
 // Capture exceptions, messages or manual events
-Sentry.captureMessage('Hello, world!');
-Sentry.captureException(new Error('Good bye'));
-Sentry.captureEvent({
+sentry.captureMessage('Hello, world!');
+sentry.captureException(new Error('Good bye'));
+sentry.captureEvent({
   message: 'Manual',
   stacktrace: [
     // ...
