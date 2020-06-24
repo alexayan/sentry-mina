@@ -136,7 +136,7 @@ export class Breadcrumbs {
     }
 
     fill(this.ctx, 'request', (originalRequest) => {
-      return function(requestOptions = {}) {
+      return (requestOptions = {}) => {
         let method = requestOptions.method ? requestOptions.method.toUpperCase() : 'GET';
         let url = requestOptions.url;
 
