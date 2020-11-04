@@ -208,6 +208,8 @@ if (typeof window === 'undefined') {
   window = {
     console: console
   };
+} else if (!window.console) {
+  window.console = console;
 }
 
 /***/ }),
